@@ -34,6 +34,10 @@ public class HeadPrefix {
         headPrefixMap.put(team.getName(), headPrefix);
     }
 
+    public static void removeHeadPrefix(Team team) {
+        headPrefixMap.remove(team.getName());
+    }
+
     public static PacketByteBuf createBuf() {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeMap(HeadPrefix.getHeadPrefixMap(), PacketByteBuf::writeString, PacketByteBuf::writeText);
