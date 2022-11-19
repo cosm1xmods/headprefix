@@ -1,0 +1,9 @@
+{
+    "text.autoconfig.headprefix.title": "HeadPrefix",
+    "text.autoconfig.headprefix.option.background": "Shadow",
+    "text.autoconfig.headprefix.option.background.@Tooltip": "§7Show shadow. §8Default: false",
+    "text.autoconfig.headprefix.option.height": "Height",
+    "text.autoconfig.headprefix.option.height.@Tooltip": "§7Prefix render height. §8Default: 10",
+    "commands.headprefix.set.success": "Team headprefix set to %s",
+    "commands.headprefix.remove.success": "Team headprefix cleared"
+}

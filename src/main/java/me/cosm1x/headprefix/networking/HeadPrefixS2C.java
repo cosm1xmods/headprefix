@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.world.World;
 
 public class HeadPrefixS2C {
     
@@ -17,6 +18,7 @@ public class HeadPrefixS2C {
         ServerPlayNetworkHandler serverLoginNetworkHandler, 
         PacketSender packetSender,
         MinecraftServer minecraftServer ) {
-            packetSender.sendPacket(PacketRegistry.HEAD_PREFIX_UPDATE, HeadPrefix.createBuf());
+            HeadPrefix hp = minecraftServer.getWorld(World.OVERWORLD).getPersistentStateManager().getOrCreate(HeadPrefix::readNbt, HeadPrefix::getHeadPrefixInstance, "headprefix");
+            packetSender.sendPacket(PacketRegistry.HEAD_PREFIX_UPDATE, hp.createBuf());
     }
 }

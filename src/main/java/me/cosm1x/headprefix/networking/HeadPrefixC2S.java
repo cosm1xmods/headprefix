@@ -3,6 +3,7 @@ package me.cosm1x.headprefix.networking;
 import java.util.HashMap;
 import java.util.function.IntFunction;
 
+import me.cosm1x.headprefix.HeadPrefixModClient;
 import me.cosm1x.headprefix.headprefix.HeadPrefix;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
@@ -23,8 +24,8 @@ public class HeadPrefixC2S {
         PacketByteBuf buf,
         PacketSender packetSender) {
             IntFunction<HashMap<String, Text>> intFunction = PacketByteBuf.getMaxValidator(HashMap::new, 128);
-            HeadPrefix.setHeadPrefixMap(buf.readMap(intFunction, PacketByteBuf::readString, PacketByteBuf::readText));
-            System.out.println(HeadPrefix.getHeadPrefixMap().toString());
+            HeadPrefix hp =  new HeadPrefix(buf.readMap(intFunction, PacketByteBuf::readString, PacketByteBuf::readText));
+            HeadPrefixModClient.headPrefix = hp;
             
     }
 }

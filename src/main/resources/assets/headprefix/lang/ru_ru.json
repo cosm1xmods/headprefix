@@ -1,0 +1,9 @@
+{
+    "text.autoconfig.headprefix.title": "HeadPrefix",
+    "text.autoconfig.headprefix.option.background": "Тень",
+    "text.autoconfig.headprefix.option.background.@Tooltip": "§7Показывать тень. §8По умолчанию: false",
+    "text.autoconfig.headprefix.option.height": "Высота",
+    "text.autoconfig.headprefix.option.height.@Tooltip": "§7Высота рендера префикса. §8По умолчанию: 10",
+    "commands.headprefix.set.success": "Префикс над головой для команды установлен на %s",
+    "commands.headprefix.remove.success": "Префикс над головой для команды очищен"
+}

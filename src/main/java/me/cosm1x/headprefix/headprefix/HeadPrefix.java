@@ -1,46 +1,83 @@
 package me.cosm1x.headprefix.headprefix;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+
+
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.text.Text;
+import net.minecraft.world.PersistentState;
 
-public class HeadPrefix {
-    private static HashMap<String, Text> headPrefixMap = new HashMap<String, Text>();
+public class HeadPrefix extends PersistentState{
+    private HashMap<String, Text> headPrefixMap;
 
-    public static HashMap<String, Text> getHeadPrefixMap() {
+    public HeadPrefix(HashMap<String, Text> hashMap) {
+        this.headPrefixMap = hashMap;
+    }
+
+    public static HeadPrefix getHeadPrefixInstance() {
+        HeadPrefix hp = new HeadPrefix(new HashMap<String, Text>());
+        hp.markDirty();
+        return hp;
+    }
+    
+    public Map<String, Text> getHeadPrefixMap() {
         return headPrefixMap;
     }
 
-    public static Text getHeadPrefix(String team) {
+    public Text getHeadPrefix(String team) {
         return headPrefixMap.get(team);
     }
     
-    public static Text getHeadPrefix(Team team) {
+    public Text getHeadPrefix(Team team) {
         return headPrefixMap.get(team.getName());
     }
 
-    public static void setHeadPrefixMap(HashMap<String, Text> map) {
-        headPrefixMap = map;
+    public void setHeadPrefixMap(HashMap<String, Text> map) {
+        this.headPrefixMap = map;
     }
 
-    public static void setHeadPrefix(String team, Text headPrefix) {
-        headPrefixMap.put(team, headPrefix);
+    public void setHeadPrefix(String team, Text headPrefix) {
+        this.headPrefixMap.put(team, headPrefix);
     }
 
-    public static void setHeadPrefix(Team team, Text headPrefix) {
-        headPrefixMap.put(team.getName(), headPrefix);
+    public void setHeadPrefix(Team team, Text headPrefix) {
+        this.headPrefixMap.put(team.getName(), headPrefix);
     }
 
-    public static void removeHeadPrefix(Team team) {
-        headPrefixMap.remove(team.getName());
+    public void removeHeadPrefix(Team team) {
+        this.headPrefixMap.remove(team.getName());
     }
-
-    public static PacketByteBuf createBuf() {
+    
+    public PacketByteBuf createBuf() {
         PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeMap(HeadPrefix.getHeadPrefixMap(), PacketByteBuf::writeString, PacketByteBuf::writeText);
+        buf.writeMap(this.getHeadPrefixMap(), PacketByteBuf::writeString, PacketByteBuf::writeText);
         return buf;
     }
+    
+    @Override
+    public NbtCompound writeNbt(NbtCompound nbt) {
+        NbtCompound prefixes = new NbtCompound();
+        for (String key : this.getHeadPrefixMap().keySet()) {
+            prefixes.putString(key, Text.Serializer.toJson(this.headPrefixMap.get(key)));
+        }
+        nbt.put("HeadPrefixes", prefixes);
+        return nbt;
+    }
+
+    public static HeadPrefix readNbt(NbtCompound nbt) {
+        NbtCompound prefixes = nbt.getCompound("HeadPrefixes");
+        HashMap<String, Text> prefixesMap = new HashMap<String, Text>();
+        for (String key : prefixes.getKeys()) {
+            prefixesMap.put(key, Text.Serializer.fromJson(prefixes.getString(key)));
+        }
+        HeadPrefix headPrefixInstance = new HeadPrefix(prefixesMap);
+
+        return headPrefixInstance;
+    }
+
 }
