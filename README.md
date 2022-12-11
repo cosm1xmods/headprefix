@@ -16,3 +16,5 @@ At this moment, mod has two configuable values:
 - /headprefix set <team> <prefix> - Sets HeadPrefix to team
 - /headprefix remove <team> - Removes HeadPrefix from team 
 
+### Links
+Discord: https://discord.gg/k58hMAwYVN
