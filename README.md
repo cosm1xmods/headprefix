@@ -6,6 +6,7 @@
 
 ## What does it do?
 Displays configurable prefix above your head depending on the team
+
 **This mod needed on both client and server**
 
 ### Configuration
