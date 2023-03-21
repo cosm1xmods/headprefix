@@ -11,6 +11,7 @@ import me.cosm1x.headprefix.config.HeadPrefixConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.font.TextRenderer.TextLayerType;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -19,7 +20,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.Matrix4f;
+import org.joml.Matrix4f;
 
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin<T extends Entity> {
@@ -68,11 +69,11 @@ public abstract class EntityRendererMixin<T extends Entity> {
         if (d > 4096.0) {
             return;
         }
-        boolean bl = !((Entity)entity).isSneaky();
+        boolean bl = !entity.isSneaky();
         float f = ((Entity)entity).getHeight() + 0.5f;
         int i = -config.height;
         matrices.push();
-        matrices.translate(0.0, f, 0.0);
+        matrices.translate(0.0f, f, 0.0f);
         matrices.multiply((this.dispatcher.getRotation()));
         matrices.scale(-0.025f, -0.025f, 0.025f);
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
@@ -82,14 +83,14 @@ public abstract class EntityRendererMixin<T extends Entity> {
         TextRenderer textRenderer = this.getTextRenderer();
         float h = -textRenderer.getWidth(text) / 2;
         if (config.background) {
-            textRenderer.draw(text, h, (float)i, 0x20FFFFFF, false, matrix4f, vertexConsumers, bl, j, light);
+            textRenderer.draw(text, h, (float)i, 553648127, false, matrix4f, vertexConsumers, bl ? TextRenderer.TextLayerType.SEE_THROUGH : TextRenderer.TextLayerType.NORMAL, j, light);
             if (bl) {
-                textRenderer.draw(text, h, (float)i, -1, false, matrix4f, vertexConsumers, false, 0, light);
+                textRenderer.draw(text, h, (float)i, -1, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, light);
             }
         } else {
-            textRenderer.draw(text, h, (float)i, 0x20FFFFFF, false, matrix4f, vertexConsumers, bl, 0, light);
+            textRenderer.draw(text, h, (float)i, 553648127, false, matrix4f, vertexConsumers, bl ? TextRenderer.TextLayerType.SEE_THROUGH : TextRenderer.TextLayerType.NORMAL, 0, light);
             if (bl) {
-                textRenderer.draw(text, h, (float)i, -1, false, matrix4f, vertexConsumers, false, 0, light);
+                textRenderer.draw(text, h, (float)i, -1, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, light);
             }
         }
         matrices.pop();
