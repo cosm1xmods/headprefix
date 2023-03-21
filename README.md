@@ -7,6 +7,8 @@
 ## What does it do?
 Displays configurable prefix above your head depending on the team
 
+**This mod needed on both client and server**
+
 ### Configuration
 At this moment, mod has two configuable values:
 - Shadow(**true**/**false**): Show shadow, Default: **false**
@@ -16,3 +18,5 @@ At this moment, mod has two configuable values:
 - /headprefix set <team> <prefix> - Sets HeadPrefix to team
 - /headprefix remove <team> - Removes HeadPrefix from team 
 
+### Links
+Discord: https://discord.gg/k58hMAwYVN
